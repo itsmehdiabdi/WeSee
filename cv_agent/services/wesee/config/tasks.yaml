@@ -1,10 +1,7 @@
 extract_linkedin_data:
   description: >
-    Extract and structure all relevant professional information from LinkedIn. You have access to 
-    a LinkedIn Data Fetcher tool that can retrieve profile data from the database using a LinkedIn URL.
-    
-    If provided with a LinkedIn URL, use the LinkedIn Data Fetcher tool to retrieve the stored profile data.
-    If provided with raw LinkedIn profile data, extract information directly from it.
+    Extract and structure all relevant professional information from LinkedIn. You have will
+    be given a raw LinkedIn profile data.
     
     Focus on: work experience, education, skills, certifications, projects, achievements, and any other 
     professional details. Organize this information in a clear, structured format.
@@ -73,4 +70,3 @@ create_customized_cv:
     - extract_linkedin_data
     - analyze_job_requirements 
     - filter_relevant_content
-  output_file: 'customized_cv.md'
