@@ -10,3 +10,6 @@ webdriver-manager
 # Async Tasks
 celery
 redis
+
+# crewai
+crewai[tools]

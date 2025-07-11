@@ -1,0 +1,76 @@
+extract_linkedin_data:
+  description: >
+    Extract and structure all relevant professional information from LinkedIn. You have access to 
+    a LinkedIn Data Fetcher tool that can retrieve profile data from the database using a LinkedIn URL.
+    
+    If provided with a LinkedIn URL, use the LinkedIn Data Fetcher tool to retrieve the stored profile data.
+    If provided with raw LinkedIn profile data, extract information directly from it.
+    
+    Focus on: work experience, education, skills, certifications, projects, achievements, and any other 
+    professional details. Organize this information in a clear, structured format.
+    
+    LinkedIn Input: {linkedin_input}
+  expected_output: >
+    A comprehensive structured summary of the candidate's professional background including:
+    - Work experience with roles, companies, dates, and key achievements
+    - Education and certifications
+    - Technical and soft skills
+    - Projects and accomplishments
+    - Any other relevant professional information
+    - Source confirmation (whether data was fetched from database or provided directly)
+  agent: linkedin_data_analyst
+
+analyze_job_requirements:
+  description: >
+    Thoroughly analyze the provided job posting to identify all requirements, preferred qualifications,
+    and key success factors. Pay attention to required skills, experience levels, education requirements,
+    and any specific technologies or methodologies mentioned.
+    
+    Job Posting: {job_posting}
+  expected_output: >
+    A detailed analysis of the job requirements including:
+    - Must-have qualifications and skills
+    - Preferred qualifications and nice-to-have skills
+    - Required experience level and background
+    - Key technologies, tools, or methodologies
+    - Company culture and values that should be reflected
+    - Success metrics or KPIs mentioned
+  agent: job_requirements_analyst
+
+filter_relevant_content:
+  description: >
+    Using the extracted LinkedIn data and job requirements analysis, filter and prioritize 
+    the candidate's information based on relevance to the specific job. Identify which 
+    experiences, skills, and achievements should be emphasized, which should be mentioned 
+    briefly, and which should be excluded to create a focused application.
+  expected_output: >
+    A filtered and prioritized version of the candidate's data including:
+    - High-priority experiences and achievements that directly match job requirements
+    - Medium-priority items that support the application
+    - Skills and qualifications organized by relevance
+    - Specific examples and metrics that demonstrate value
+    - Recommendations for what to emphasize in the CV
+  agent: content_filter_specialist
+  context: 
+    - extract_linkedin_data
+    - analyze_job_requirements
+
+create_customized_cv:
+  description: >
+    Create a professional, well-formatted CV tailored specifically to the job application.
+    Use the filtered content to craft compelling descriptions that highlight the candidate's
+    best fit for the role. Ensure the CV is ATS-friendly and follows professional formatting standards.
+  expected_output: >
+    A complete, professionally formatted CV in markdown format that includes:
+    - Professional summary tailored to the role
+    - Work experience with achievement-focused bullet points
+    - Skills section organized by relevance
+    - Education and certifications
+    - Relevant projects or accomplishments
+    - Professional formatting that's both human and ATS-readable
+  agent: cv_writer
+  context:
+    - extract_linkedin_data
+    - analyze_job_requirements 
+    - filter_relevant_content
+  output_file: 'customized_cv.md'
