@@ -3,9 +3,22 @@ POST http://localhost:8000/api/scrape/
 Content-Type: application/json
 
 {
-    "linkedin_url": "https://www.linkedin.com/in/itsmehdiabdi/"
+    "linkedin_url": "https://www.linkedin.com/in/ali-asghar-arjmand-96468b226/"
 }
 
 ### Check Task Status
 GET http://localhost:8000/api/scrape/status/ceb08cd2-7ac2-46f2-9814-1152e9d36f2d/
+Content-Type: application/json
+
+### Create CV
+POST http://localhost:8000/api/cv/
+Content-Type: application/json
+
+{
+    "linkedin_url": "https://www.linkedin.com/in/ali-asghar-arjmand-96468b226/",
+    "job_description": "We are looking for a software engineer with 3 years of experience in Python and Django."
+}
+
+### Check Task Status
+GET http://localhost:8000/api/cv/status/ceb08cd2-7ac2-46f2-9814-1152e9d36f2d/
 Content-Type: application/json
