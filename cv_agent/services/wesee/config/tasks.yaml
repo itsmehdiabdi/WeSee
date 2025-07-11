@@ -65,6 +65,7 @@ create_customized_cv:
     - Education and certifications
     - Relevant projects or accomplishments
     - Professional formatting that's both human and ATS-readable
+    - Just output the markdown content, no other text or formatting.
   agent: cv_writer
   context:
     - extract_linkedin_data
