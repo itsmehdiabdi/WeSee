@@ -1,0 +1,6 @@
+POST http://localhost:8000/api/scrape/
+Content-Type: application/json
+
+{
+    "linkedin_url": "https://www.linkedin.com/in/itsmehdiabdi/"
+}

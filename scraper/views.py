@@ -48,9 +48,9 @@ class LinkedInProfileScrapeAPIView(APIView):
                 return Response(
                     {
                         "success": False,
-                        "error": "No scraper credentials found. Please create a Scraper instance first.",
+                        "error": "No scraper credentials found. Please contact support.",
                     },
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
 
             # Initialize and run scraper

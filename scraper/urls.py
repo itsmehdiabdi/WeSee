@@ -6,7 +6,7 @@ app_name = "scraper"
 
 urlpatterns = [
     path(
-        "linkedin/scrape/",
+        "",
         LinkedInProfileScrapeAPIView.as_view(),
         name="linkedin-scrape",
     ),
