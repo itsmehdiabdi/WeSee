@@ -1,3 +1,4 @@
+from dataclasses import asdict
 import logging
 
 from linkedin_scraper import Person, actions
@@ -36,13 +37,34 @@ class LinkedInPersonScraper:
     def _setup_driver(self):
         """Setup Chrome driver with options"""
         chrome_options = Options()
+    
+        # Basic stealth options
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
         chrome_options.add_argument("--disable-gpu")
+        
+        # Anti-detection options
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+        chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        
+        # Performance options
+        chrome_options.add_argument("--disable-extensions")
+        chrome_options.add_argument("--disable-plugins")
+        chrome_options.add_argument("--disable-images")  # Faster loading
+        
+        # User agent (mimic real browser)
+        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+        
+        # Window size
         chrome_options.add_argument("--window-size=1920,1080")
-
+        
         self.driver = webdriver.Chrome(options=chrome_options)
+        
+        # Remove automation indicators
+        self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
         return self.driver
 
     def _get_credentials(self):
@@ -87,12 +109,10 @@ class LinkedInPersonScraper:
                 "company": person.company,
                 "location": person.location,
                 "about": person.about,
-                "experiences": person.experiences,
-                "educations": person.educations,
-                "interests": person.interests,
-                "accomplishments": person.accomplishments,
-                "also_viewed_urls": person.also_viewed_urls,
-                "contacts": person.contacts,
+                "experiences": [asdict(experience) for experience in person.experiences],
+                "educations": [asdict(education) for education in person.educations],
+                "interests": [asdict(interest) for interest in person.interests],
+                "accomplishments": [asdict(accomplishment) for accomplishment in person.accomplishments],
                 "linkedin_url": person.linkedin_url,
             }
 
