@@ -1,0 +1,1 @@
+# AI prompts and templates for CV creation 
