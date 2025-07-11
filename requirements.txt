@@ -1,5 +1,6 @@
 # Django
 django
+djangorestframework
 
 # Web Scraping
 linkedin_scraper
