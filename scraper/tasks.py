@@ -2,6 +2,12 @@ import logging
 
 from celery import shared_task
 
+from users.utils import (
+    get_user_data_by_linkedin_url,
+    save_scraped_user_data,
+    user_exists_in_db,
+)
+
 from .models import Scraper, ScrapingTask
 from .scrapers.linkedin_scraper import LinkedInPersonScraper
 
@@ -23,6 +29,26 @@ def scrape_linkedin_profile_task(self, task_id, linkedin_url):
         return
 
     try:
+        # Check if user data already exists in database
+        if user_exists_in_db(linkedin_url):
+            logger.info(
+                f"User data already exists for: {linkedin_url}, returning from database"
+            )
+
+            # Get existing data from database
+            existing_data = get_user_data_by_linkedin_url(linkedin_url)
+
+            # Update task with existing result
+            result_data = {"success": True, "data": existing_data, "source": "database"}
+            task_record.status = "SUCCESS"
+            task_record.result = result_data
+            task_record.save()
+
+            logger.info(
+                f"Successfully returned existing data for LinkedIn profile: {linkedin_url}"
+            )
+            return result_data
+
         # Check if we have scraper credentials
         if not Scraper.objects.exists():
             error_msg = "No scraper credentials found. Please contact support."
@@ -32,11 +58,22 @@ def scrape_linkedin_profile_task(self, task_id, linkedin_url):
             return {"success": False, "error": error_msg}
 
         # Initialize and run scraper
+        logger.info(f"No existing data found for {linkedin_url}, starting scraping...")
         scraper = LinkedInPersonScraper()
         person_data = scraper.scrape_person(linkedin_url)
 
+        # Save scraped data to database
+        try:
+            save_scraped_user_data(person_data)
+            logger.info(
+                f"Successfully saved scraped data to database for: {linkedin_url}"
+            )
+        except Exception as save_error:
+            logger.error(f"Error saving scraped data to database: {str(save_error)}")
+            # Continue execution, don't fail the task just because of save error
+
         # Update task with success result
-        result_data = {"success": True, "data": person_data}
+        result_data = {"success": True, "data": person_data, "source": "scraped"}
         task_record.status = "SUCCESS"
         task_record.result = result_data
         task_record.save()
