@@ -1,6 +1,11 @@
+### Scrape LinkedIn Profile
 POST http://localhost:8000/api/scrape/
 Content-Type: application/json
 
 {
     "linkedin_url": "https://www.linkedin.com/in/itsmehdiabdi/"
 }
+
+### Check Task Status
+GET http://localhost:8000/api/scrape/status/ceb08cd2-7ac2-46f2-9814-1152e9d36f2d/
+Content-Type: application/json
