@@ -1,1 +1,1 @@
-# AI services for CV generation and processing 
+# AI services for CV generation and processing

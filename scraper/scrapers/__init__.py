@@ -1,1 +1,1 @@
-# Scrapers module for LinkedIn profile scraping 
+# Scrapers module for LinkedIn profile scraping
