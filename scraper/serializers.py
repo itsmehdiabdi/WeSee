@@ -78,7 +78,7 @@ class LinkedInScrapeResponseSerializer(serializers.Serializer):
 
 class TaskCreatedResponseSerializer(serializers.Serializer):
     """Serializer for async task creation response"""
-    
+
     success = serializers.BooleanField()
     task_id = serializers.CharField()
     message = serializers.CharField()
@@ -87,7 +87,7 @@ class TaskCreatedResponseSerializer(serializers.Serializer):
 
 class TaskStatusResponseSerializer(serializers.Serializer):
     """Serializer for task status response"""
-    
+
     task_id = serializers.CharField()
     status = serializers.CharField()
     linkedin_url = serializers.URLField()

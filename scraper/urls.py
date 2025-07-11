@@ -1,9 +1,6 @@
 from django.urls import path
 
-from .views import (
-    LinkedInProfileScrapeAsyncAPIView,
-    TaskStatusAPIView,
-)
+from .views import LinkedInProfileScrapeAsyncAPIView, TaskStatusAPIView
 
 app_name = "scraper"
 

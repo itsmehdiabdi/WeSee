@@ -17,6 +17,7 @@ from .tasks import scrape_linkedin_profile_task
 
 logger = logging.getLogger(__name__)
 
+
 class LinkedInProfileScrapeAsyncAPIView(APIView):
     """
     API endpoint to scrape a LinkedIn profile asynchronously using Celery
@@ -32,7 +33,7 @@ class LinkedInProfileScrapeAsyncAPIView(APIView):
         {
             "linkedin_url": "https://www.linkedin.com/in/username/"
         }
-        
+
         Response:
         {
             "success": true,
@@ -58,9 +59,7 @@ class LinkedInProfileScrapeAsyncAPIView(APIView):
 
             # Create task record in database
             task_record = ScrapingTask.objects.create(
-                task_id=task_id,
-                linkedin_url=linkedin_url,
-                status='PENDING'
+                task_id=task_id, linkedin_url=linkedin_url, status="PENDING"
             )
 
             # Start the async task
@@ -68,14 +67,14 @@ class LinkedInProfileScrapeAsyncAPIView(APIView):
 
             # Build status URL
             status_url = request.build_absolute_uri(
-                reverse('scraper:task-status', kwargs={'task_id': task_id})
+                reverse("scraper:task-status", kwargs={"task_id": task_id})
             )
 
             response_data = {
                 "success": True,
                 "task_id": task_id,
                 "message": "Task started successfully",
-                "status_url": status_url
+                "status_url": status_url,
             }
 
             response_serializer = TaskCreatedResponseSerializer(data=response_data)
@@ -104,7 +103,7 @@ class TaskStatusAPIView(APIView):
     def get(self, request, task_id):
         """
         Get the status of a scraping task
-        
+
         Response:
         {
             "task_id": "uuid",
